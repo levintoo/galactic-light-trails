@@ -43,7 +43,7 @@ addEventListener('resize', () => {
 })
 
 // Objects
-class Object {
+class Particle {
     constructor(x, y, radius, color) {
         this.x = x
         this.y = y
@@ -65,12 +65,14 @@ class Object {
 }
 
 // Implementation
-let objects
+let particles
 function init() {
-    objects = []
+    particles = []
 
-    for (let i = 0; i < 400; i++) {
-        // objects.push()
+    for (let i = 0; i < 100; i++) {
+        const x = Math.random() * canvas.width
+        const y = Math.random() * canvas.height
+        particles.push(new Particle(x,y,5,'blue'))
     }
 }
 
@@ -79,12 +81,12 @@ function animate() {
     requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
 
-    c.fillText('CANVAS BOILERPLATE', mouse.x, mouse.y)
-    // objects.forEach(object => {
-    //  object.update()
-    // })
+    particles.forEach(particle => {
+     particle.update()
+    })
 }
 
 init()
 animate()
 
+console.log(particles);
