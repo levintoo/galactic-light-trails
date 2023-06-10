@@ -69,21 +69,34 @@ let particles
 function init() {
     particles = []
 
-    for (let i = 0; i < 100; i++) {
-        const x = Math.random() * canvas.width
-        const y = Math.random() * canvas.height
-        particles.push(new Particle(x,y,5,'blue'))
+    for (let i = 0; i < 200; i++) {
+        const canvasWidth = canvas.width + 300
+        const canvasHeight = canvas.height + 300
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        const x = Math.random() * canvasWidth - canvasWidth / 2
+        const y = Math.random() * canvasHeight - canvasHeight / 2
+        const radius = Math.random() * 2
+        particles.push(new Particle(x,y,radius,color))
     }
 }
 
 // Animation Loop
+let radians = 0
 function animate() {
     requestAnimationFrame(animate)
-    c.clearRect(0, 0, canvas.width, canvas.height)
+    c.fillStyle = "rgba(10, 10, 10, 1)"
+    c.fillRect(0, 0, canvas.width, canvas.height)
+
+    c.save()
+    c.translate(canvas.width /2 , canvas.height /2)
+    c.rotate(radians)
 
     particles.forEach(particle => {
-     particle.update()
+        particle.update()
     })
+
+    c.restore()
+    radians += 0.001
 }
 
 init()
