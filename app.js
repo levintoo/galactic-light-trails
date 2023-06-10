@@ -54,6 +54,8 @@ class Particle {
     draw() {
         c.beginPath()
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false)
+        c.shadowColor = this.color
+        c.shadowBlur = 15
         c.fillStyle = this.color
         c.fill()
         c.closePath()
@@ -69,7 +71,7 @@ let particles
 function init() {
     particles = []
 
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 500; i++) {
         const canvasWidth = canvas.width + 300
         const canvasHeight = canvas.height + 300
         const color = colors[Math.floor(Math.random() * colors.length)]
