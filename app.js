@@ -41,6 +41,13 @@ addEventListener('resize', () => {
 
     init()
 })
+let mouseDown = false
+addEventListener('mousedown', (event) => {
+    mouseDown = true
+})
+addEventListener('mouseup', (event) => {
+    mouseDown = false
+})
 
 // Objects
 class Particle {
@@ -71,22 +78,28 @@ let particles
 function init() {
     particles = []
 
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 1500; i++) {
         const canvasWidth = canvas.width + 300
         const canvasHeight = canvas.height + 300
+        const myCanvasDimensions = Math.pow(((canvas.width * canvas.width) + (canvas.height * canvas.height)), 0.5)
         const color = colors[Math.floor(Math.random() * colors.length)]
         const x = Math.random() * canvasWidth - canvasWidth / 2
         const y = Math.random() * canvasHeight - canvasHeight / 2
-        const radius = Math.random() * 2
-        particles.push(new Particle(x,y,radius,color))
+        const myx = Math.random() * myCanvasDimensions - canvasWidth / 2
+        const myy = Math.random() * myCanvasDimensions - canvasWidth / 2
+        console.log(`default x = ${x}, my x = ${myx}`)
+        console.log(`default y = ${y}, my y = ${myy}`)
+        const radius = Math.random() * 3
+        particles.push(new Particle(myx,myy,radius,color))
     }
 }
 
 // Animation Loop
 let radians = 0
+let alpha = 1
 function animate() {
     requestAnimationFrame(animate)
-    c.fillStyle = "rgba(10, 10, 10, 1)"
+    c.fillStyle = `rgba(10, 10, 10, ${alpha})`
     c.fillRect(0, 0, canvas.width, canvas.height)
 
     c.save()
@@ -99,6 +112,13 @@ function animate() {
 
     c.restore()
     radians += 0.001
+
+    if(mouseDown && alpha >= 0.1){
+        alpha -= 0.01
+    } else if(!mouseDown && alpha < 1)
+    {
+        alpha += 0.01
+    }
 }
 
 init()
